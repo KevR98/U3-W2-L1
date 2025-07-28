@@ -1,15 +1,18 @@
-import { Component } from 'react'
-import CommentList from './CommentList'
-import AddComment from './AddComment'
-import Loading from './Loading'
-import Error from './Error'
+import { Component } from 'react';
+import CommentList from './CommentList';
+import AddComment from './AddComment';
+import Loading from './Loading';
+import Error from './Error';
+
+const AUT =
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcwYmFjMjc4Y2RkZjAwMTU1ZDY3OWMiLCJpYXQiOjE3NTM3MTg4NTAsImV4cCI6MTc1NDkyODQ1MH0.3PY82vAMgkx_FiBcAG5hFc811UkQouQXvVz8YKc8huA';
 
 class CommentArea extends Component {
   state = {
     comments: [],
     isLoading: false,
     isError: false,
-  }
+  };
 
   // componentDidMount = async () => {
   //   try {
@@ -41,45 +44,45 @@ class CommentArea extends Component {
     if (prevProps.asin !== this.props.asin) {
       this.setState({
         isLoading: true,
-      })
+      });
       try {
         let response = await fetch(
           'https://striveschool-api.herokuapp.com/api/comments/' +
             this.props.asin,
           {
             headers: {
-              Authorization: 'Bearer inserisci-qui-il-tuo-token',
+              Authorization: AUT,
             },
           }
-        )
-        console.log(response)
+        );
+        console.log(response);
         if (response.ok) {
-          let comments = await response.json()
+          let comments = await response.json();
           this.setState({
             comments: comments,
             isLoading: false,
             isError: false,
-          })
+          });
         } else {
-          this.setState({ isLoading: false, isError: true })
+          this.setState({ isLoading: false, isError: true });
         }
       } catch (error) {
-        console.log(error)
-        this.setState({ isLoading: false, isError: true })
+        console.log(error);
+        this.setState({ isLoading: false, isError: true });
       }
     }
-  }
+  };
 
   render() {
     return (
-      <div className="text-center">
+      <div className='text-center'>
         {this.state.isLoading && <Loading />}
         {this.state.isError && <Error />}
         <AddComment asin={this.props.asin} />
         <CommentList commentsToShow={this.state.comments} />
       </div>
-    )
+    );
   }
 }
 
-export default CommentArea
+export default CommentArea;
