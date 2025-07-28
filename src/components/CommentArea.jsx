@@ -43,6 +43,7 @@ class CommentArea extends Component {
       <div className='text-center'>
         {this.state.isLoading && <Loading />}
         {this.state.isError && <Error />}
+
         <AddComment asin={this.props.asin} />
         <CommentList commentsToShow={this.state.comments} />
       </div>
